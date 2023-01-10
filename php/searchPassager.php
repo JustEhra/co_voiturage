@@ -1,11 +1,11 @@
 <?php
 
-global $dbc,$db,$dbs;
+global $dbc;
 require './templates/login.php';
 login();
 
-
-
+$db = "covoituragedb";
+$dbs = mysqli_select_db($dbc, $db);
 if(!$dbs) {
 die("DATABASE SELECTION FAILED:" .mysqli_error($dbc));
 exit();
