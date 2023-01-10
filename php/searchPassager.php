@@ -1,33 +1,25 @@
 <?php
-
-global $dbc;
 require './templates/login.php';
-login();
+global $dbc,$db,$dbs;
 
-$db = "covoituragedb";
-$dbs = mysqli_select_db($dbc, $db);
+login();
 if(!$dbs) {
-die("DATABASE SELECTION FAILED:" .mysqli_error($dbc));
-exit();
+    die("DATABASE SELECTION FAILED:" .mysqli_error($dbc));
+    exit();
 }
 
-$nom = mysqli_real_escape_string($dbc, $_GET['nom']);
-$prenom = mysqli_real_escape_string($dbc, $_GET['prenom']);
-$age = mysqli_real_escape_string($dbc, $_GET['age']);
-$conduit = mysqli_real_escape_string($dbc, $_GET['conducteur']);
-
-#calcul age
-$query = "INSERT INTO utilisateur(nom, prenom, age, conduit) VALUES ('$nom','$prenom','$age','$conduit')";
-
+$query = "SELECT * FROM `utilisateur_has_point_rdv`";
+$res = mysqli_query($dbc,$query);
+$row = mysqli_fetch_array($res);
 
 if(mysqli_query($dbc, $query)){
-echo "Records added successfully";
-http_response_code(200);
+    echo "Records added successfully";
+    http_response_code(202);
 } 
 else{
-echo "ERROR: Could not able to execute". $query." ". mysqli_error($dbc);
+    echo "ERROR: Could not able to execute". $query." ". mysqli_error($dbc);
 }
 
 mysqli_close($dbc);
-#test
+
 ?>

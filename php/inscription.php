@@ -1,14 +1,11 @@
 <?php
-
-global $dbc,$db,$dbs;
 require './templates/login.php';
+global $dbc,$db,$dbs;
+
 login();
-
-
-
 if(!$dbs) {
-die("DATABASE SELECTION FAILED:" .mysqli_error($dbc));
-exit();
+    die("DATABASE SELECTION FAILED:" .mysqli_error($dbc));
+    exit();
 }
 
 $nom = mysqli_real_escape_string($dbc, $_GET['nom']);
