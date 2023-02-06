@@ -9,19 +9,19 @@ if(!$dbs) {
 }
 
 $listPassager = str_getcsv(mysqli_real_escape_string($dbc, $_GET['listP']));
-
+var_dump($listPassager);
 foreach($listPassager as $item  ){
     $item = trim($item, '\"');
     $arr = explode(':', $item);
-    $prenom = $arr[1];
+    $mail = $arr[1];
     $Nomlieu = $arr[0];
-    $query = "INSERT INTO utilisateur_rdv(utilisateur_id,point_rdv_id)
+    $query = "INSERT INTO passager_has_conducteur(utilisateur_id,point_rdv_id)
     SELECT `utilisateur`.`id`,`point_rdv`.`id`
     FROM `utilisateur`,`point_rdv`
-    WHERE `utilisateur`.`prenom` = '$prenom' AND `point_rdv`.`Nom_lieu` = '$Nomlieu'";
+    WHERE `utilisateur`.`mail` = '$mail' AND `point_rdv`.`Nom_lieu` = '$Nomlieu'";
     mysqli_query($dbc, $query);
 }
-http_response_code(205);
+http_response_code( 200);
 
 
 

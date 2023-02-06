@@ -19,7 +19,7 @@ $query = "INSERT INTO utilisateur(nom, prenom, age, conduit) VALUES ('$nom','$pr
 
 if(mysqli_query($dbc, $query)){
 echo "Records added successfully";
-http_response_code(200);
+http_response_code(2000);
 } 
 else{
 echo "ERROR: Could not able to execute". $query." ". mysqli_error($dbc);
