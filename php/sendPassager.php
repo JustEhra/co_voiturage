@@ -13,7 +13,9 @@ $mail = mysqli_real_escape_string($dbc, $_GET['mail']);
 $destinationMac = mysqli_real_escape_string($dbc, $_GET['destination']);
 
 #calcul age
-$query = "INSERT INTO passager_has_point_rdv(utilisateur_id,point_rdv_id,point_arrive)
+$date = date('Y-m-d H:i:s');
+$dateH = date('H:i:s');
+$query = "INSERT INTO passager_has_point_rdv(utilisateur_id,point_rdv_id,date,heure,point_arrivee_id)
 VALUES
     (   
         (SELECT `utilisateur`.`id`
@@ -22,6 +24,8 @@ VALUES
         (SELECT `point_rdv`.`id`
     FROM `point_rdv`
     WHERE `point_rdv`.`macBalise` = '$macBalise'),
+        ('$date'),
+        ('$dateH'),
         (SELECT `point_rdv`.`id`
     FROM `point_rdv`
     WHERE `point_rdv`.`macBalise` = '$destinationMac')

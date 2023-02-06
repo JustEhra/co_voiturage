@@ -14,9 +14,9 @@ $long = $_GET['long'];
 
 $query = "
 SELECT point.`Nom_lieu`, `utilisateur`.`mail` , (6371 * 2 * ASIN(SQRT( POWER(SIN(( $lat - point.Coordonnes_gps_lat) *  pi()/180 / 2), 2) +COS( $lat * pi()/180) * COS(point.Coordonnes_gps_lat * pi()/180) * POWER(SIN(( $long - point.Coordonnes_gps_long) * pi()/180 / 2), 2) ))) as distance
-FROM `utilisateur_has_point_rdv` 
+FROM `passager_has_point_rdv` 
 	LEFT JOIN `utilisateur` ON `passager_has_point_rdv`.`utilisateur_id` = `utilisateur`.`id` 
-	LEFT JOIN `point_rdv` destination ON `passager_has_point_rdv`.`point_arrive` = `destination`.`id`
+	LEFT JOIN `point_rdv` destination ON `passager_has_point_rdv`.`point_arrivee_id` = `destination`.`id`
     LEFT JOIN `point_rdv` point ON `passager_has_point_rdv`.`point_rdv_id` = `point`.`id`
     WHERE `destination`.`macBalise` = '$destination_conducteur' 
     having  distance <= 200
