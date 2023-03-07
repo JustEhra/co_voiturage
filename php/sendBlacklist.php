@@ -9,15 +9,16 @@ if(!$dbs) {
 }
 
 $Blacklist = str_getcsv(mysqli_real_escape_string($dbc, $_GET['Blacklist']));
-$PassagerBloquant = mysqli_real_escape_string($dbc, $_GET['Utilisateurbloquant']);
+$ConducteurBloquant = mysqli_real_escape_string($dbc, $_GET['Utilisateurbloquant']);
 
 
 foreach($Blacklist as $item  ){
 
-    $query = "INSERT INTO Blacklist(utilisateur_bloquant,utilisateur_bloque) 
+    $item = str_replace( array( '\\', '"', ',' , ';', '<', '>', '[', ']' ), '', $item);
+    var_dump($item);
+    $query = "INSERT INTO blacklist(utilisateur_bloquant,utilisateur_bloque) 
     VALUES
-    ((SELECT `utilisateur`.`id` FROM `utilisateur`WHERE `utilisateur`.`mail` = '$PassagerBloquant'), (SELECT `utilisateur`.`id` FROM `utilisateur`WHERE `utilisateur`.`mail` = '$item') )";
-
+    ((SELECT `utilisateur`.`id` FROM `utilisateur`WHERE `utilisateur`.`mail` = '$ConducteurBloquant'), (SELECT `utilisateur`.`id` FROM `utilisateur`WHERE `utilisateur`.`mail` = '$item') )";
 
     mysqli_query($dbc, $query);
 }

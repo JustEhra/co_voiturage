@@ -25,12 +25,12 @@ foreach($listPassager as $item  ){
     ('$date'),
     ('$dateH'),
     (SELECT `utilisateur`.`id`FROM `utilisateur`WHERE `utilisateur`.`mail` = '$mailConducteur'))";
-    mysqli_query($dbc, $query);
-
-    $query = "DELETE FROM passager_has_point_rdv where utilisateur_id=(SELECT `utilisateur`.`id`
-    FROM `utilisateur`
-    WHERE `utilisateur`.`mail` = '$mail')";
-    mysqli_query($dbc, $query);
+    if(mysqli_query($dbc, $query)) {
+        $query = "DELETE FROM passager_has_point_rdv where utilisateur_id=(SELECT `utilisateur`.`id`
+        FROM `utilisateur`
+        WHERE `utilisateur`.`mail` = '$mail')";
+        mysqli_query($dbc, $query);
+    }
 }
 http_response_code( 200);
 

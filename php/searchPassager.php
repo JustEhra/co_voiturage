@@ -8,6 +8,7 @@ if(!$dbs) {
     exit();
 }
 
+$mail = mysqli_real_escape_string($dbc, $_GET['mail']);
 $destination_conducteur = mysqli_real_escape_string($dbc, $_GET['dest']);
 $lat = $_GET['lat'];
 $long = $_GET['long'];
@@ -19,6 +20,12 @@ FROM `passager_has_point_rdv`
 	LEFT JOIN `point_rdv` destination ON `passager_has_point_rdv`.`point_arrivee_id` = `destination`.`id`
     LEFT JOIN `point_rdv` point ON `passager_has_point_rdv`.`point_rdv_id` = `point`.`id`
     WHERE `destination`.`macBalise` = '$destination_conducteur' 
+    AND `utilisateur`.`id` NOT IN (SELECT utilisateur_bloque FROM blacklist
+                                     LEFT JOIN `utilisateur` ON `blacklist`.`utilisateur_bloquant` = `utilisateur`.`id` 
+                                     WHERE utilisateur.mail='$mail' )
+    AND `utilisateur`.`id` NOT IN (SELECT utilisateur_bloquant FROM blacklist
+                                     LEFT JOIN `utilisateur` ON `blacklist`.`utilisateur_bloque` = `utilisateur`.`id` 
+                                     WHERE utilisateur.mail='$mail' )
     having  distance <= 200
 	LIMIT 4";
 
